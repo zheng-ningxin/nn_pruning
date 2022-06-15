@@ -104,7 +104,7 @@ class SparseTrainer:
 
         # We don't use .loss here since the model may return tuples instead of ModelOutput.
         loss = outputs["loss"] if isinstance(outputs, dict) else outputs[0]
-
+        # import ipdb; ipdb.set_trace()
         self.metrics["ce_loss"] += float(loss)
         loss, distil_loss = self.patch_coordinator.distil_loss_combine(loss, inputs, outputs)
         self.metrics["distil_loss"] += float(distil_loss)

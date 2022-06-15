@@ -101,7 +101,8 @@ class GlueTrainer(XPTrainer):
         for test_dataset, task in zip(test_datasets, tasks):
             # Removing the `label` columns because it contains -1 and Trainer won't like that.
             if "label" in test_dataset.column_names:
-                test_dataset.remove_columns_("label")
+                # import ipdb; ipdb.set_trace()
+                test_dataset.remove_columns("label")
             predictions = self.predict(test_dataset=test_dataset).predictions
             predictions = predictions[0] if isinstance(predictions, tuple) else predictions
             predictions = np.squeeze(predictions) if self.is_regression else np.argmax(predictions, axis=1)

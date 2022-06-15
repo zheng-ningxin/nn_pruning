@@ -210,6 +210,7 @@ def finetune(
         experiment = glue_sparse_xp.GlueSparseXP(param_dict)
 
     # This does not actually use hyper parameter search right now, but it's useful for naming the output directory for example
+    # import ipdb; ipdb.set_trace()
     experiment.run_from_dict(param_dict)
 
 
