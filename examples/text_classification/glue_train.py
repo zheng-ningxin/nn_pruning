@@ -30,6 +30,7 @@ logger = logging.get_logger(__name__)
 
 class GlueTrainer(XPTrainer):
     def __init__(self, *args, eval_examples=None, post_process_function=None, **kwargs):
+        # import ipdb; ipdb.set_trace()
         self.model_args = kwargs.pop("model_args")
         self.data_args = kwargs.pop("data_args")
         super().__init__(*args, **kwargs)
@@ -91,6 +92,7 @@ class GlueTrainer(XPTrainer):
 
         # Loop to handle MNLI double evaluation (matched, mis-matched)
         tasks = [data_args.dataset_name]
+        # import ipdb; ipdb.set_trace()
         if data_args.dataset_name == "mnli":
             test_datasets = [self.additional_datasets["test_matched"]]
             tasks.append("mnli-mm")
@@ -102,7 +104,7 @@ class GlueTrainer(XPTrainer):
             # Removing the `label` columns because it contains -1 and Trainer won't like that.
             if "label" in test_dataset.column_names:
                 # import ipdb; ipdb.set_trace()
-                test_dataset.remove_columns("label")
+                test_dataset = test_dataset.remove_columns("label")
             predictions = self.predict(test_dataset=test_dataset).predictions
             predictions = predictions[0] if isinstance(predictions, tuple) else predictions
             predictions = np.squeeze(predictions) if self.is_regression else np.argmax(predictions, axis=1)
