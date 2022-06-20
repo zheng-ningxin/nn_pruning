@@ -58,8 +58,8 @@ from nn_pruning.patch_coordinator import (
 from nn_pruning.sparse_trainer import SparseTrainer
 
 # from dataloader_wrapper import ImageZipDatasetWrapper
-from head_pruner import str2att_mask_list
-from data.dataset import ImageFolder
+# from head_pruner import str2att_mask_list
+# from data.dataset import ImageFolder
 
 
 logger = logging.getLogger(__name__)
@@ -457,6 +457,7 @@ if __name__ == "__main__":
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
     )
+    model = optimize_model(model, "dense")
 
     # Preprocessing the raw_datasets
     if data_args.task_name is not None:
@@ -590,9 +591,9 @@ if __name__ == "__main__":
         "test": predict_dataset,
     }
 
-    heads = str2att_mask_list(pruning_args.head_mask_str)
-    model.prune_heads({layer_id: head_ids for layer_id, head_ids in enumerate(heads)})
-    logger.info("Done loading model {}".format(heads))
+    # heads = str2att_mask_list(pruning_args.head_mask_str)
+    # model.prune_heads({layer_id: head_ids for layer_id, head_ids in enumerate(heads)})
+    # logger.info("Done loading model {}".format(heads))
 
     logger.info("Initializing sparse training arguments")
     sparse_args = SparseTrainingArguments()
